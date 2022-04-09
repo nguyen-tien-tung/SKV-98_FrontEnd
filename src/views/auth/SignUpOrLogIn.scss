@@ -1,0 +1,40 @@
+.h3Auth{
+  margin-top: 37px;
+  margin-bottom: 45px;
+  font-size: 24px;
+  font-weight:600
+}
+.h4Auth{
+  line-height: 19px;
+  margin: auto;
+}
+.companyLogo{
+  width: 400px;
+  height: 400px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.authForm{
+  max-width: 400px;
+  // height: 413px;
+  padding: 19px 42px;
+  border-radius: 8px;
+}
+
+.authFormButton{
+  border: 2px solid #C71919;
+  border-radius: 8px;
+  width: 159px;
+  height: 45px;
+  margin: auto;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.customUl{
+  list-style: inside;
+}
+.customUl > li {
+  @apply my-3
+}

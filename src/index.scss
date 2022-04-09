@@ -7,6 +7,11 @@
 @import "tailwindcss/utilities";
 
 @import "./styles/layout.scss";
+@import "./styles/form.scss";
+
+h1,h2,h3,h4,h5,h6{
+  @apply w-fit
+}
 h1 {
   font-size: 30px;
 }

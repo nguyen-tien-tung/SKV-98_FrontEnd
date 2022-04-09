@@ -8,12 +8,14 @@ import TopNav from "./components/topnav/TopNav";
 import SignUpOrLogIn from "./views/auth/SignUpOrLogIn";
 
 import { Outlet } from "react-router-dom";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const NavLayout = () => (
     <>
       <TopNav />
       <Outlet />
+      <Footer />
     </>
   );
 
@@ -21,8 +23,7 @@ function App() {
     <BrowserRouter>
       <div className="App ">
         <Routes>
-          <Route path="auth/login" element={<SignUpOrLogIn />} />
-          <Route path="auth/signup" element={<SignUpOrLogIn />} />
+          <Route path="auth" element={<SignUpOrLogIn />} />
 
           <Route path="/" element={<NavLayout />}>
             <Route path="upload-new-product" element={<NewProductForm />} />
