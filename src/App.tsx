@@ -9,7 +9,7 @@ import SignUpOrLogIn from "./views/auth/SignUpOrLogIn";
 
 import { Outlet } from "react-router-dom";
 import Footer from "./components/footer/Footer";
-
+import AllProducts from "./views/allPRoducts";
 function App() {
   const NavLayout = () => (
     <>
@@ -26,7 +26,9 @@ function App() {
           <Route path="auth" element={<SignUpOrLogIn />} />
 
           <Route path="/" element={<NavLayout />}>
+            <Route path="" element={<Home />} />
             <Route path="upload-new-product" element={<NewProductForm />} />
+            <Route path="all-products" element={<AllProducts />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

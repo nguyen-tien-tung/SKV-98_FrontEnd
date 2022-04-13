@@ -3,11 +3,13 @@ import React, { useState } from "react";
 
 import { useForm } from "../helper/userForm";
 import IProduct from "../types/IProduct";
+import { Category } from "../types/IProduct";
 
 const NewProductForm = () => {
   const productInfo: IProduct = {
     name: "",
     price: 0,
+    category: "",
     description: "",
     mainImage: "",
     images: [],
@@ -27,7 +29,7 @@ const NewProductForm = () => {
   };
 
   const handleMainImage: (e: any) => void = (e) => {
-    const file = e.target.file;
+    const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
@@ -59,7 +61,7 @@ const NewProductForm = () => {
   const { onChange, onSubmit, values } = useForm(submitForm, productInfo);
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="flex flex-col w-fit mx-auto">
         <label htmlFor="name">Name</label>
         <input
           type="text"
@@ -74,6 +76,15 @@ const NewProductForm = () => {
           onChange={onChange}
           name="price"
         />
+        <label htmlFor="category">Description</label>
+        <select name="category" value={values.category} onChange={onChange}>
+          {Object.keys(Category).map((key) => (
+            <option value={key} key={key}>
+              {key}
+            </option>
+          ))}
+          <option value=""></option>
+        </select>
         <label htmlFor="description">Description</label>
         <input
           type="text"
