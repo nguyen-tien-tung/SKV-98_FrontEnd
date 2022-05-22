@@ -1,6 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./SignUpOrLogIn.scss";
+import FB from "@/public/FB.svg";
+import Ins from "@/public/instagram.png";
+import Yt from "@/public/Yt.png";
+import Tiktok from "@/public/tiktok.png";
+import Zalo from "@/public/zalo.png";
 
 import logo from "./logo.png";
 import { useParams, useNavigate, Navigate } from "react-router-dom";
@@ -137,19 +142,19 @@ const SignUpOrLogIn = () => {
             Kết nối với chúng tôi
             <ul className="flex w-100 justify-between mb-14 mt-2">
               <li>
-                <img src="src/public/FB.svg" />
+                <img src={FB} />
               </li>
               <li>
-                <img src="src/public/instagram.png" />
+                <img src={Ins} />
               </li>
               <li>
-                <img src="src/public/Yt.png" />
+                <img src={Yt} />
               </li>
               <li>
-                <img src="src/public/tiktok.png" />
+                <img src={Tiktok} />
               </li>
               <li>
-                <img src="src/public/zalo.png" />
+                <img src={Zalo} />
               </li>
             </ul>
           </div>
