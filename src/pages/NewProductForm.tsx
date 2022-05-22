@@ -1,22 +1,26 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-import { useForm } from "../helper/userForm";
-import IProduct from "../types/IProduct";
-import { Category } from "../types/IProduct";
+import { useForm } from "../helper/useForm";
+import IProduct, { ProductStates } from "../types/IProduct";
+import { Category } from "../types/Category";
 
 const NewProductForm = () => {
   const productInfo: IProduct = {
     name: "",
     price: 0,
     category: "",
+    origin: "",
     description: "",
     mainImage: "",
     images: [],
+    mass: 0,
+    state: ProductStates.AVAILABLE,
   };
   const [imageSource, setImageSource] = useState<string>("");
   const submitForm = async () => {
     values.price = parseFloat(values.price);
+    values.mass = parseFloat(values.mass);
     try {
       const res = await axios.post(
         import.meta.env.VITE_API_URL + "product",
@@ -76,9 +80,16 @@ const NewProductForm = () => {
           onChange={onChange}
           name="price"
         />
-        <label htmlFor="category">Description</label>
+        <label htmlFor="name">Origin</label>
+        <input
+          type="text"
+          value={values.origin}
+          onChange={onChange}
+          name="origin"
+        />
+        <label htmlFor="category">Category</label>
         <select name="category" value={values.category} onChange={onChange}>
-          {Object.keys(Category).map((key) => (
+          {Object.values(Category).map((key) => (
             <option value={key} key={key}>
               {key}
             </option>
@@ -91,6 +102,13 @@ const NewProductForm = () => {
           value={values.description}
           onChange={onChange}
           name="description"
+        />
+        <label htmlFor="mass">Mass</label>
+        <input
+          type="text"
+          value={values.mass}
+          onChange={onChange}
+          name="mass"
         />
         <label htmlFor="image">Image</label>
         <input type="file" onChange={handleMainImage} name="mainImage" />

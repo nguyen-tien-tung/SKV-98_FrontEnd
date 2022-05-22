@@ -1,15 +1,21 @@
-export enum Category {
-  DONG_TRUNG_HA_THAO = "DONG_TRUNG_HA_THAO",
-  YEN_SAO_THUONG_HANG = "YEN_SAO_THUONG_HANG",
-  SAFFARON = "SAFFARON",
-  NHAN_SAM = "NHAN_SAM",
-  KHAC = "KHAC",
+import { Category } from "./Category";
+
+export enum ProductStates {
+  AVAILABLE = "AVAILABLE",
+  SOLD_OUT = "SOLD_OUT",
+  COMING_SOON = "COMING_SOON",
 }
+
 export default interface IProduct {
+  id?: string;
   name: string;
   price: number;
+  origin: string;
+  mass: number;
   category: Category | "";
   description: string;
   mainImage: string;
   images: Array<string>;
+  sold?: number;
+  state?: ProductStates;
 }

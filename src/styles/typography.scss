@@ -1,0 +1,23 @@
+
+h1,h2,h3,h4,h5,h6{
+  @apply w-fit
+}
+h1 {
+  font-size: 30px;
+}
+
+p {
+  font-size: 15px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+
+.sectionHeader{
+  @apply text-main-red mx-auto capitalize;
+  font-weight: 600;
+  font-size: 30px;
+  line-height:35px;
+}

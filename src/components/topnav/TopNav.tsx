@@ -1,15 +1,17 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import "./TopNav.scss";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../contexts/UserContext";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const TopNav = () => {
+  const { user, updateUser } = useContext(UserContext);
   const goto: (
     url: string
   ) => React.MouseEventHandler<HTMLImageElement> | undefined = (url) => {
@@ -61,25 +63,38 @@ const TopNav = () => {
                 className="mr-6"
               />
             </div>
-            <div className="flex items-center">
-              <button className="signInSignUpButton mr-1">Đăng ký</button>
-              <div
-                className="bg-main-red"
-                style={{ width: "2px", height: "20px", overflow: "hidden" }}
-              ></div>
-              <button className="signInSignUpButton ml-1">Đăng nhập</button>
-            </div>
+            {user ? (
+              <div>
+                {user.name}&nbsp;&nbsp;
+                {user.email}
+              </div>
+            ) : (
+              <div className="flex items-center">
+                <Link to="auth/signup">
+                  <button className="signInSignUpButton mr-1">Đăng ký</button>
+                </Link>
+                <div
+                  className="bg-main-red"
+                  style={{ width: "2px", height: "20px", overflow: "hidden" }}
+                ></div>
+                <Link to="auth/signin">
+                  <button className="signInSignUpButton ml-1">Đăng nhập</button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
       <div className=" bg-main-red  ">
         <div className="flex section items-center w-full overflow-hidden">
-          <img
-            src="src/public/companyLogo.png"
-            alt=""
-            style={{ width: "255px", height: "255px" }}
-            className="mr-20 "
-          />
+          <Link to="/">
+            <img
+              src="src/public/companyLogo.png"
+              alt=""
+              style={{ width: "255px", height: "255px" }}
+              className="mr-20 "
+            />
+          </Link>
           <div className="flex h-fit mr-20 grow max-w-2xl">
             <div className="w-full">
               <div className="w-full relative">
@@ -143,7 +158,7 @@ const TopNav = () => {
       <div className=" bg-main-yellow ">
         <div className="flex section justify-between items-center">
           <Link to="/">Trang chủ</Link>
-          <Link to="/">Giới thiệu</Link>
+          <Link to="about-us">Giới thiệu</Link>
           <Menu as="div" className="relative inline-block text-left ">
             <div>
               <Menu.Button className="inline-flex justify-center items-center w-full customA    ">
@@ -167,9 +182,9 @@ const TopNav = () => {
               <Menu.Items className="origin-top-right absolute z-20 right-0 mt-2 w-56 rounded-md shadow-lg bg-main-yellow ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
+                    {({ active }: { active: any }) => (
+                      <Link
+                        to="products-by-category/DONG_TRUNG_HA_THAO"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -178,13 +193,13 @@ const TopNav = () => {
                         )}
                       >
                         Đông trùng hạ thảo
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
+                    {({ active }: { active: any }) => (
+                      <Link
+                        to="products-by-category/YEN_SAO_THUONG_HANG"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -193,13 +208,13 @@ const TopNav = () => {
                         )}
                       >
                         Tổ yến thượng hạng
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        href="#"
+                    {({ active }: { active: any }) => (
+                      <Link
+                        to="products-by-category/SAFFARON"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -208,12 +223,13 @@ const TopNav = () => {
                         )}
                       >
                         Saffaron
-                      </a>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <button
+                    {({ active }: { active: any }) => (
+                      <Link
+                        to="products-by-category/NHAN_SAM"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -222,12 +238,13 @@ const TopNav = () => {
                         )}
                       >
                         Nhân sâm
-                      </button>
+                      </Link>
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <button
+                    {({ active }: { active: any }) => (
+                      <Link
+                        to="products-by-category/KHAC"
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -236,7 +253,7 @@ const TopNav = () => {
                         )}
                       >
                         Khác
-                      </button>
+                      </Link>
                     )}
                   </Menu.Item>
                 </div>
@@ -245,7 +262,7 @@ const TopNav = () => {
           </Menu>
           <Link to="/">Đặc quyền</Link>
           <Link to="/">Tin tức</Link>
-          <Link to="/">Liên hệ</Link>
+          <Link to="contact-us">Liên hệ</Link>
         </div>
       </div>
     </div>

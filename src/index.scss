@@ -8,29 +8,6 @@
 
 @import "./styles/layout.scss";
 @import "./styles/form.scss";
+@import "./styles/typography.scss";
+@import "./styles/buttons.scss";
 
-h1,h2,h3,h4,h5,h6{
-  @apply w-fit
-}
-h1 {
-  font-size: 30px;
-}
-
-p {
-  font-size: 15px;
-}
-
-h2 {
-  font-size: 18px;
-}
-
-.signInSignUpButton {
-  @apply text-main-red  border-2 border-main-red rounded-lg;
-  padding: 8px 16px;
-  width: 109px;
-  height: 35px;
-  font-size: 16px;
-  font-weight: 400;
-  white-space: nowrap;
-  line-height: 19px;
-}
