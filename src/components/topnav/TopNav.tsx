@@ -3,6 +3,11 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import "./TopNav.scss";
+import FB from "@/public/FB.svg";
+import Ins from "@/public/instagram.png";
+import Yt from "@/public/Yt.png";
+import Tiktok from "@/public/tiktok.png";
+import Zalo from "@/public/zalo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -29,7 +34,7 @@ const TopNav = () => {
           <div className="flex flex-wrap">
             <div className="flex items-center">
               <img
-                src="src/public/FB.svg"
+                src={FB}
                 alt=""
                 onClick={() =>
                   goto(import.meta.env.VITE_FACEBOOK_URL as string)
@@ -37,26 +42,26 @@ const TopNav = () => {
                 className="mr-1.5"
               />
               <img
-                src="src/public/instagram.png"
+                src={Ins}
                 alt=""
                 onClick={() => goto(import.meta.env.VITE_INSTA_URL as string)}
                 className="mr-3"
               />
               <img
-                src="src/public/Yt.png"
+                src={Yt}
                 alt=""
                 style={{ width: "35px", height: "35px" }}
                 onClick={() => goto(import.meta.env.VITE_YOUTUBE_URL as string)}
                 className="mr-2.5"
               />
               <img
-                src="src/public/tiktok.png"
+                src={Tiktok}
                 alt=""
                 style={{ width: "35px", height: "35px" }}
                 onClick={() => goto(import.meta.env.VITE_TIKTOK_URL as string)}
               />
               <img
-                src="src/public/zalo.png"
+                src={Zalo}
                 alt=""
                 style={{ width: "50px", height: "50px" }}
                 onClick={() => goto(import.meta.env.VITE_ZALO_URL as string)}
