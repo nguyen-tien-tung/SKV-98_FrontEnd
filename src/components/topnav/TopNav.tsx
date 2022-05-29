@@ -3,6 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import "./TopNav.scss";
+import companyLogo from "@/public/companyLogo.png";
 import FB from "@/public/FB.svg";
 import Ins from "@/public/instagram.png";
 import Yt from "@/public/Yt.png";
@@ -10,13 +11,21 @@ import Tiktok from "@/public/tiktok.png";
 import Zalo from "@/public/zalo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { useEffect } from "react";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const TopNav = () => {
-  const { user, updateUser } = useContext(UserContext);
+  const { state, dispatch } = useContext(UserContext);
+  useEffect(() => {
+    (async () => {
+      const userInfo = localStorage.getItem("userInfo");
+      if (userInfo)
+        dispatch({ type: "UPDATE_USER", payload: JSON.parse(userInfo) });
+    })();
+  }, []);
   const goto: (
     url: string
   ) => React.MouseEventHandler<HTMLImageElement> | undefined = (url) => {
@@ -68,10 +77,17 @@ const TopNav = () => {
                 className="mr-6"
               />
             </div>
-            {user ? (
+            {state.user ? (
               <div>
-                {user.name}&nbsp;&nbsp;
-                {user.email}
+                <div className=" text-main-red font-extrabold">
+                  {state.user.username}
+                </div>
+                <button
+                  className="border-2 border-main-red text-base"
+                  onClick={() => dispatch({ type: "LOG_OUT" })}
+                >
+                  Đăng xuất
+                </button>
               </div>
             ) : (
               <div className="flex items-center">
@@ -82,7 +98,7 @@ const TopNav = () => {
                   className="bg-main-red"
                   style={{ width: "2px", height: "20px", overflow: "hidden" }}
                 ></div>
-                <Link to="auth/signin">
+                <Link to="auth/login">
                   <button className="signInSignUpButton ml-1">Đăng nhập</button>
                 </Link>
               </div>
@@ -94,7 +110,7 @@ const TopNav = () => {
         <div className="flex section items-center w-full overflow-hidden">
           <Link to="/">
             <img
-              src="src/public/companyLogo.png"
+              src={companyLogo}
               alt=""
               style={{ width: "255px", height: "255px" }}
               className="mr-20 "
@@ -135,28 +151,30 @@ const TopNav = () => {
               </div>
             </div>
           </div>
-          <div>
-            <svg
-              width="50"
-              height="50"
-              viewBox="0 0 50 50"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M45.4625 15.4813C45.2708 15.2043 45.0149 14.978 44.7167 14.8216C44.4184 14.6652 44.0867 14.5835 43.75 14.5833H15.277L12.8729 8.81251C12.5576 8.05255 12.0239 7.40332 11.3392 6.94712C10.6545 6.49091 9.84978 6.24829 9.02704 6.25001H4.16663V10.4167H9.02704L18.9104 34.1354C19.0687 34.5149 19.3357 34.8391 19.6779 35.0671C20.0201 35.2951 20.4221 35.4167 20.8333 35.4167H37.5C38.3687 35.4167 39.1458 34.8771 39.452 34.0667L45.702 17.4C45.8202 17.0846 45.8601 16.7453 45.8183 16.4112C45.7766 16.077 45.6545 15.7579 45.4625 15.4813ZM36.0562 31.25H22.2229L17.0145 18.75H40.7437L36.0562 31.25Z"
-                fill="white"
-              />
-              <path
-                d="M21.875 43.75C23.6009 43.75 25 42.3509 25 40.625C25 38.8991 23.6009 37.5 21.875 37.5C20.1491 37.5 18.75 38.8991 18.75 40.625C18.75 42.3509 20.1491 43.75 21.875 43.75Z"
-                fill="white"
-              />
-              <path
-                d="M36.4584 43.75C38.1843 43.75 39.5834 42.3509 39.5834 40.625C39.5834 38.8991 38.1843 37.5 36.4584 37.5C34.7325 37.5 33.3334 38.8991 33.3334 40.625C33.3334 42.3509 34.7325 43.75 36.4584 43.75Z"
-                fill="white"
-              />
-            </svg>
-          </div>
+          <Link to="/shopping-cart">
+            <div>
+              <svg
+                width="50"
+                height="50"
+                viewBox="0 0 50 50"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M45.4625 15.4813C45.2708 15.2043 45.0149 14.978 44.7167 14.8216C44.4184 14.6652 44.0867 14.5835 43.75 14.5833H15.277L12.8729 8.81251C12.5576 8.05255 12.0239 7.40332 11.3392 6.94712C10.6545 6.49091 9.84978 6.24829 9.02704 6.25001H4.16663V10.4167H9.02704L18.9104 34.1354C19.0687 34.5149 19.3357 34.8391 19.6779 35.0671C20.0201 35.2951 20.4221 35.4167 20.8333 35.4167H37.5C38.3687 35.4167 39.1458 34.8771 39.452 34.0667L45.702 17.4C45.8202 17.0846 45.8601 16.7453 45.8183 16.4112C45.7766 16.077 45.6545 15.7579 45.4625 15.4813ZM36.0562 31.25H22.2229L17.0145 18.75H40.7437L36.0562 31.25Z"
+                  fill="white"
+                />
+                <path
+                  d="M21.875 43.75C23.6009 43.75 25 42.3509 25 40.625C25 38.8991 23.6009 37.5 21.875 37.5C20.1491 37.5 18.75 38.8991 18.75 40.625C18.75 42.3509 20.1491 43.75 21.875 43.75Z"
+                  fill="white"
+                />
+                <path
+                  d="M36.4584 43.75C38.1843 43.75 39.5834 42.3509 39.5834 40.625C39.5834 38.8991 38.1843 37.5 36.4584 37.5C34.7325 37.5 33.3334 38.8991 33.3334 40.625C33.3334 42.3509 34.7325 43.75 36.4584 43.75Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </Link>
         </div>
       </div>
 
@@ -266,7 +284,7 @@ const TopNav = () => {
             </Transition>
           </Menu>
           <Link to="/">Đặc quyền</Link>
-          <Link to="/">Tin tức</Link>
+          <Link to="news">Tin tức</Link>
           <Link to="contact-us">Liên hệ</Link>
         </div>
       </div>

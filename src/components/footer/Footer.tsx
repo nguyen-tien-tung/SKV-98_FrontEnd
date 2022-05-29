@@ -5,12 +5,14 @@ import Ins from "@/public/instagram.png";
 import Yt from "@/public/Yt.png";
 import Tiktok from "@/public/tiktok.png";
 import Zalo from "@/public/zalo.png";
+
+import companyLogo from "@/public/companyLogo.png";
 const Footer = () => {
   return (
     <div className="bg-red-footer pt-8">
       <div className="section flex text-white text-left  justify-between  ">
         <div>
-          <img src="src/public/companyLogo.png" alt="" className="footerLogo" />
+          <img src={companyLogo} alt="" className="footerLogo" />
         </div>
         <div className="mt-6">
           <h2 className="font-semibold">Về chúng tôi</h2>

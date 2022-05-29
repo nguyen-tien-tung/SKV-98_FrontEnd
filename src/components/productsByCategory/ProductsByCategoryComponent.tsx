@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 interface IProps {
   allProducts: any[];
@@ -35,21 +35,22 @@ const ProductsByCategoryComponent = ({ allProducts }: IProps) => {
             >
               {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ
             </h3>
-            <button
-              className="text-main-red"
-              style={{
-                backgroundColor: "#FFDD55",
-                minWidth: "165px",
-                minHeight: "35px",
-                border: "2px solid #FFF",
-                fontSize: "15px",
-                fontWeight: "600",
-                lineHeight: "18px",
-              }}
-              onClick={() => toProductDetails(product.id)}
-            >
-              Mua ngay
-            </button>
+            <Link to={`/product/${product.id}`}>
+              <button
+                className="text-main-red"
+                style={{
+                  backgroundColor: "#FFDD55",
+                  minWidth: "165px",
+                  minHeight: "35px",
+                  border: "2px solid #FFF",
+                  fontSize: "15px",
+                  fontWeight: "600",
+                  lineHeight: "18px",
+                }}
+              >
+                Mua ngay
+              </button>
+            </Link>
           </div>
         ))}
     </div>

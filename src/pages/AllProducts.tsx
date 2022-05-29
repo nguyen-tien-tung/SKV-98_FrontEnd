@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import IProduct from "../types/IProduct";
-import axios from "axios";
+import $axios from "@/axios/index";
 
 const AllProducts = () => {
   const [allProducts, setAllProducts] = useState<IProduct[]>([]);
@@ -9,7 +9,7 @@ const AllProducts = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await axios.get(import.meta.env.VITE_API_URL + "product");
+        const res = await $axios.get(import.meta.env.VITE_API_URL + "product");
         setAllProducts(res.data);
       } catch (error) {
         console.error(error);

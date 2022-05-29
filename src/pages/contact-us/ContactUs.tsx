@@ -21,7 +21,7 @@ const ContactUs = () => {
   };
   const submitForm = async () => {
     try {
-      const res = await axios.post(
+      const res = await $axios.post(
         import.meta.env.VITE_API_URL + "complaints",
         values
       );

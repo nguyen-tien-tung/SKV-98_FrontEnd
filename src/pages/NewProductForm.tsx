@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { useState } from "react";
 
 import { useForm } from "../helper/useForm";
 import IProduct, { ProductStates } from "../types/IProduct";
 import { Category } from "../types/Category";
+import $axios from "@/axios/index";
 
 const NewProductForm = () => {
   const productInfo: IProduct = {
@@ -22,7 +22,7 @@ const NewProductForm = () => {
     values.price = parseFloat(values.price);
     values.mass = parseFloat(values.mass);
     try {
-      const res = await axios.post(
+      const res = await $axios.post(
         import.meta.env.VITE_API_URL + "product",
         values
       );

@@ -8,19 +8,24 @@ import Tiktok from "@/public/tiktok.png";
 import Zalo from "@/public/zalo.png";
 
 import logo from "./logo.png";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import {
+  useParams,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { useForm } from "../../helper/useForm";
 import $axios from "@/axios/index";
 
 const SignUpOrLogIn = () => {
-  const { action } = useParams();
+  const action = useLocation().pathname.split("/").slice(-1)[0];
   let navigate = useNavigate();
 
   const userInfo: {
-    username: "";
-    password: "";
-    phoneNumber: "";
-    usernameOrPhoneNumber: "";
+    username: string;
+    password: string;
+    phoneNumber: string;
+    usernameOrPhoneNumber: string;
   } = {
     username: "",
     password: "",
@@ -29,11 +34,33 @@ const SignUpOrLogIn = () => {
   };
 
   const handleAuth = async () => {
-    console.log("HANDLE AUTH");
-    const res = await $axios.post(
-      `user${action == "signin" ? "/signin" : ""}`,
-      { ...values, phoneNumber: +values.phoneNumber }
-    );
+    try {
+      const res = await $axios.post(
+        `${action == "login" ? "auth/login" : "user"}`,
+        {
+          ...(action == "login"
+            ? {
+                usernameOrPhoneNumber: values.usernameOrPhoneNumber,
+                password: values.password,
+              }
+            : {
+                username: values.username,
+                password: values.password,
+                phoneNumber: values.phoneNumber,
+              }),
+        }
+      );
+      if (res.status == 201 && res.data.accessToken && res.data.userInfo) {
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(res.data.accessToken)
+        );
+        localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
+        navigate("/");
+      } else if (res.status == 201) {
+        navigate("/auth/login");
+      }
+    } catch (error) {}
   };
   const { onChange, onSubmit, values } = useForm(handleAuth, userInfo);
 
@@ -43,7 +70,7 @@ const SignUpOrLogIn = () => {
         <h3 className="h3Auth">
           <span style={{ color: "#FFDD55" }}>Suckhoevang98 </span>
           <span className="text-main-red">
-            {action == "signin" ? "Đăng nhập" : "Đăng ký"}
+            {action == "login" ? "Đăng nhập" : "Đăng ký"}
           </span>
         </h3>
       </div>
@@ -55,9 +82,9 @@ const SignUpOrLogIn = () => {
             onSubmit={onSubmit}
           >
             <h2 style={{ fontWeight: 600, lineHeight: "21px" }}>
-              {action == "signin" ? "Đăng nhập" : "Đăng ký"}
+              {action == "login" ? "Đăng nhập" : "Đăng ký"}
             </h2>
-            {action == "signin" && (
+            {action == "login" && (
               <input
                 className=""
                 type="text"
@@ -67,7 +94,7 @@ const SignUpOrLogIn = () => {
                 name="usernameOrPhoneNumber"
               />
             )}
-            {!(action == "signin") && (
+            {!(action == "login") && (
               <input
                 className=""
                 type="text"
@@ -86,7 +113,7 @@ const SignUpOrLogIn = () => {
               onChange={onChange}
               name="password"
             />
-            {!(action == "signin") && (
+            {!(action == "login") && (
               <input
                 className=""
                 type="text"
@@ -97,22 +124,19 @@ const SignUpOrLogIn = () => {
               />
             )}
             <button className="authFormButton text-main-red" type="submit">
-              {action == "signin" ? "Đăng nhập" : "Đăng ký"}
+              {action == "login" ? "Đăng nhập" : "Đăng ký"}
             </button>
             <h4 className="h4Auth whitespace-nowrap ">
-              Bạn {action == "signin" ? "chưa" : "đã"} có tài khoản?{" "}
+              Bạn {action == "login" ? "chưa" : "đã"} có tài khoản?{" "}
               <span
                 className="text-main-red cursor-pointer"
                 onClick={() =>
-                  navigate(
-                    action == "signin" ? "/auth/signup" : "/auth/signin",
-                    {
-                      replace: true,
-                    }
-                  )
+                  navigate(action == "login" ? "/auth/signup" : "/auth/login", {
+                    replace: true,
+                  })
                 }
               >
-                {action == "signin" ? "Đăng ký ngay" : "Đăng nhập"}
+                {action == "login" ? "Đăng ký ngay" : "Đăng nhập"}
               </span>
             </h4>
           </form>

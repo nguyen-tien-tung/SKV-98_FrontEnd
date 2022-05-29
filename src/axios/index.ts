@@ -32,9 +32,10 @@ $axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-$axios.defaults.headers.common["Authorization"] = `${localStorage.getItem(
-  "accessToken"
-)}`;
+if (localStorage.getItem("accessToken")) {
+  $axios.defaults.headers.common["Authorization"] = `Bearer ${JSON.parse(
+    localStorage.getItem("accessToken")!
+  )}`;
+}
 
 export default $axios;
