@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   solid,
@@ -11,6 +11,7 @@ import IProduct from "../../types/IProduct";
 import $axios from "@/axios/index";
 
 import policyImg from "./policy.png";
+import { UserContext } from "../../contexts/UserContext";
 
 const ProductDetails = () => {
   let { productId } = useParams<{ productId: string }>();
@@ -24,6 +25,32 @@ const ProductDetails = () => {
       setProduct(res.data);
     })();
   }, []);
+
+  const { state, dispatch } = useContext(UserContext);
+
+  const updateCart = async (product: IProduct, quantity: number) => {
+    if (number + quantity <= 0) return;
+    const cartTemp = JSON.parse(JSON.stringify(state.user?.shoppingCart));
+    if (cartTemp.hasOwnProperty(product.id)) {
+      cartTemp[product.id].quantity = cartTemp[product.id].quantity + quantity;
+    } else {
+      cartTemp[product.id] = {
+        details: product,
+        quantity: quantity,
+      };
+    }
+    try {
+      const res = await $axios.patch("user", {
+        ...state.user,
+        shoppingCart: cartTemp,
+      });
+      if (res.status == 200) {
+        dispatch({ type: "UPDATE_USER", payload: res.data });
+      }
+    } catch (error) {}
+    dispatch({ type: "SET_CART", payload: cartTemp });
+    setNumber(0);
+  };
 
   return (
     <>
@@ -68,11 +95,13 @@ const ProductDetails = () => {
                 />
               </div>
               <div className="flex flex-row">
-                <button className="border-solid border-2 border-main-red flex flex-row">
+                <button
+                  className="border-solid border-2 border-main-red flex flex-row"
+                  onClick={() => updateCart(product, number)}
+                >
                   <FontAwesomeIcon
                     icon={solid("cart-plus")}
                     className=" mr-1"
-                    onClick={() => setNumber((number) => number + 1)}
                   />
                   <h2>Thêm vào giỏ hàng</h2>
                 </button>
@@ -81,7 +110,6 @@ const ProductDetails = () => {
                   <FontAwesomeIcon
                     icon={solid("money-bill-1-wave")}
                     className=" mr-1"
-                    onClick={() => setNumber((number) => number + 1)}
                   />
                   <h2>Thanh toán ngay</h2>
                 </button>

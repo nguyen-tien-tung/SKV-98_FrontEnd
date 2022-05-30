@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import moneyConverter from "@/utils/moneyConverter";
 interface IProps {
   allProducts: any[];
 }
@@ -33,7 +33,7 @@ const ProductsByCategoryComponent = ({ allProducts }: IProps) => {
               className="text-main-yellow "
               style={{ fontSize: "22px", fontWeight: "700" }}
             >
-              {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ
+              {moneyConverter(product.price)}đ
             </h3>
             <Link to={`/product/${product.id}`}>
               <button

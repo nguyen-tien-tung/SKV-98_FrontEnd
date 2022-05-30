@@ -12,6 +12,7 @@ import Zalo from "@/public/zalo.png";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { useEffect } from "react";
+import $axios from "@/axios/index";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -21,9 +22,12 @@ const TopNav = () => {
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
     (async () => {
-      const userInfo = localStorage.getItem("userInfo");
-      if (userInfo)
-        dispatch({ type: "UPDATE_USER", payload: JSON.parse(userInfo) });
+      if (!state.user) {
+        try {
+          const res = await $axios.get("profile");
+          dispatch({ type: "UPDATE_USER", payload: res.data });
+        } catch (error) {}
+      }
     })();
   }, []);
   const goto: (

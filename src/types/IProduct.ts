@@ -7,7 +7,7 @@ export enum ProductStates {
 }
 
 export default interface IProduct {
-  id?: string;
+  id: string;
   name: string;
   price: number;
   origin: string;

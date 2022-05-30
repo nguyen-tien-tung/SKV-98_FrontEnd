@@ -4,4 +4,5 @@ export default interface IUser {
   username: string;
   phoneNumber: string;
   email: string;
+  shoppingCart: { [key: string]: any };
 }

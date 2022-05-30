@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import "./SignUpOrLogIn.scss";
 import FB from "@/public/FB.svg";
 import Ins from "@/public/instagram.png";
@@ -16,8 +16,11 @@ import {
 } from "react-router-dom";
 import { useForm } from "../../helper/useForm";
 import $axios from "@/axios/index";
+import { UserContext } from "../../contexts/UserContext";
 
 const SignUpOrLogIn = () => {
+  const { state, dispatch } = useContext(UserContext);
+
   const action = useLocation().pathname.split("/").slice(-1)[0];
   let navigate = useNavigate();
 
@@ -55,7 +58,15 @@ const SignUpOrLogIn = () => {
           "accessToken",
           JSON.stringify(res.data.accessToken)
         );
-        localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
+
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            id: res.data.userInfo.id,
+            username: res.data.userInfo.username,
+          })
+        );
+        dispatch({ type: "UPDATE_USER", payload: res.data.userInfo });
         navigate("/");
       } else if (res.status == 201) {
         navigate("/auth/login");
