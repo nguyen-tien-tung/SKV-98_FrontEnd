@@ -20,6 +20,7 @@ import { UserContext } from "./contexts/UserContext";
 import News from "@/components/news/News";
 import CreateLoyaltySetting from "./pages/loyaltySetting/CreateLoyaltySetting";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart";
+import CompleteOrder from "./pages/completeOrder/CompleteOrder";
 
 function App() {
   const NavLayout = () => (
@@ -46,6 +47,7 @@ function App() {
               <Route path="/all-products" element={<AllProducts />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/complete-order" element={<CompleteOrder />} />
               <Route path="/shopping-cart" element={<ShoppingCart />} />
               <Route
                 path="/create-loyalty-setting"

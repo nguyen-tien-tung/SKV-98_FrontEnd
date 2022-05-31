@@ -32,9 +32,10 @@ const ProductDetails = () => {
     if (number + quantity <= 0) return;
     const cartTemp = JSON.parse(JSON.stringify(state.user?.shoppingCart));
     if (cartTemp.hasOwnProperty(product.id)) {
-      cartTemp[product.id].quantity = cartTemp[product.id].quantity + quantity;
+      cartTemp[product.id!].quantity =
+        cartTemp[product.id!].quantity + quantity;
     } else {
-      cartTemp[product.id] = {
+      cartTemp[product.id!] = {
         details: product,
         quantity: quantity,
       };

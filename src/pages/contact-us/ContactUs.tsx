@@ -4,6 +4,7 @@ import Logo from "./logo.png";
 import "./ContactUs.scss";
 import { useForm } from "../../helper/useForm";
 import axios from "axios";
+import $axios from "@/axios/index";
 
 const icons = [
   "src/public/FB.svg",

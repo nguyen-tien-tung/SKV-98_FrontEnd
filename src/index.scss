@@ -11,3 +11,8 @@
 @import "./styles/typography.scss";
 @import "./styles/buttons.scss";
 
+@layer components {
+  .my-table-spacing {
+    border-spacing: theme("spacing.8");
+  }
+}

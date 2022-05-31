@@ -2,6 +2,10 @@
   font-family: "Roboto";
   box-sizing: border-box;
 }
+html, body, #fullheight {
+  min-height: 100% !important;
+  height: 100%;
+}
 
 
 .App-logo {
