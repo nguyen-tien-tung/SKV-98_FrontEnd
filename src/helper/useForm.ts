@@ -6,7 +6,14 @@ export const useForm = (callback: any, initialState = {}) => {
 
   // onChange
   const onChange = (event: any) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
+    if (event.target.type == "checkbox") {
+      setValues({
+        ...values,
+        [event.target.name]: event.target.checked,
+      });
+    } else {
+      setValues({ ...values, [event.target.name]: event.target.value });
+    }
   };
 
   // onSubmit

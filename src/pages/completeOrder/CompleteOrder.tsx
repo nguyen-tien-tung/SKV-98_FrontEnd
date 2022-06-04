@@ -18,7 +18,17 @@ const CompleteOrder = () => {
     paymentMethod: PaymentMethod.BANK_TRANSFER,
   };
   const submitOrder = async () => {
-    const res = await $axios.post("order", values);
+    try {
+      const res = await $axios.post("order", values);
+      if (res.status == 201) {
+        dispatch({
+          type: "UPDATE_USER",
+          payload: { ...state.user, shoppingCart: {} },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   const { onChange, onSubmit, values } = useForm(submitOrder, orderInfo);
 

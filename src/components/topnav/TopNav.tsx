@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { useEffect } from "react";
 import $axios from "@/axios/index";
+import AdminRoutes from "../adminRoutes/AdminRoutes";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -110,6 +111,8 @@ const TopNav = () => {
           </div>
         </div>
       </div>
+      <AdminRoutes />
+
       <div className=" bg-main-red  ">
         <div className="flex section items-center w-full overflow-hidden">
           <Link to="/">

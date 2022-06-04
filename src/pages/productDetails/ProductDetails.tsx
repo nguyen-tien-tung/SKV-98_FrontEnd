@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,6 +19,8 @@ const ProductDetails = () => {
   const [product, setProduct] = useState<IProduct>();
   const [number, setNumber] = useState<number>(0);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       const res = await $axios.get(`product/${productId}`);
@@ -26,10 +28,21 @@ const ProductDetails = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (number > 0) {
+      setError("");
+    }
+  }, [number]);
+
   const { state, dispatch } = useContext(UserContext);
 
+  const [error, setError] = useState<string>("");
+
   const updateCart = async (product: IProduct, quantity: number) => {
-    if (number + quantity <= 0) return;
+    if (number + quantity <= 0) {
+      setError("Please select a positive quantity !");
+      return;
+    }
     const cartTemp = JSON.parse(JSON.stringify(state.user?.shoppingCart));
     if (cartTemp.hasOwnProperty(product.id)) {
       cartTemp[product.id!].quantity =
@@ -86,7 +99,9 @@ const ProductDetails = () => {
                 <FontAwesomeIcon
                   icon={solid("minus")}
                   className="cursor-pointer mx-3"
-                  onClick={() => setNumber((number) => number - 1)}
+                  onClick={() =>
+                    setNumber((number) => (number != 0 ? number - 1 : number))
+                  }
                 />
                 {number}
                 <FontAwesomeIcon
@@ -95,6 +110,7 @@ const ProductDetails = () => {
                   onClick={() => setNumber((number) => number + 1)}
                 />
               </div>
+              {error}
               <div className="flex flex-row">
                 <button
                   className="border-solid border-2 border-main-red flex flex-row"
@@ -107,7 +123,15 @@ const ProductDetails = () => {
                   <h2>Thêm vào giỏ hàng</h2>
                 </button>
                 <div>&nbsp;</div>
-                <button className="border-solid border-2 border-main-red flex flex-row">
+                <button
+                  className="border-solid border-2 border-main-red flex flex-row"
+                  onClick={async () => {
+                    await updateCart(product, number);
+                    if (number > 0) {
+                      navigate("/shopping-cart");
+                    }
+                  }}
+                >
                   <FontAwesomeIcon
                     icon={solid("money-bill-1-wave")}
                     className=" mr-1"

@@ -18,9 +18,10 @@ import UserContextProvider from "./contexts/UserContext";
 import { useContext, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import News from "@/components/news/News";
-import CreateLoyaltySetting from "./pages/loyaltySetting/CreateLoyaltySetting";
+import AllLoyaltySettings from "./pages/loyaltySetting/AllLoyaltySettings";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart";
 import CompleteOrder from "./pages/completeOrder/CompleteOrder";
+import AllOrderRequests from "./pages/allOrderRequests/AllOrderRequests";
 
 function App() {
   const NavLayout = () => (
@@ -42,7 +43,6 @@ function App() {
             <Route path="/" element={<NavLayout />}>
               <Route path="" element={<Home />} />
               <Route path="/product/:productId" element={<ProductDetails />} />
-              <Route path="/upload-new-product" element={<NewProductForm />} />
               <Route path="/news" element={<News />} />
               <Route path="/all-products" element={<AllProducts />} />
               <Route path="/contact-us" element={<ContactUs />} />
@@ -50,14 +50,22 @@ function App() {
               <Route path="/complete-order" element={<CompleteOrder />} />
               <Route path="/shopping-cart" element={<ShoppingCart />} />
               <Route
-                path="/create-loyalty-setting"
-                element={<CreateLoyaltySetting />}
-              />
-              <Route
                 path="products-by-category/:category"
                 element={<ProductsByCategory />}
               />
+
+              {/* * ROUTES FOR ADMIN : */}
+              <Route
+                path="/all-loyalty-setting"
+                element={<AllLoyaltySettings />}
+              />
+              <Route path="/upload-new-product" element={<NewProductForm />} />
+              <Route
+                path="/all-order-requests"
+                element={<AllOrderRequests />}
+              />
             </Route>
+            {/* ******************** */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

@@ -37,7 +37,6 @@ type ActionType =
 const reducer = (state: IState = initialState, action: IAction) => {
   switch (action.type) {
     case "UPDATE_USER":
-      console.log("PAYLOAD: ", action.payload);
       return { ...state, user: action.payload };
     case "LOG_OUT":
       localStorage.clear();
