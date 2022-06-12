@@ -26,7 +26,7 @@ const ProductDetails = () => {
       const res = await $axios.get(`product/${productId}`);
       setProduct(res.data);
     })();
-  }, []);
+  }, [productId]);
 
   useEffect(() => {
     if (number > 0) {

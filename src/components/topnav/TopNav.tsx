@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useRef } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
@@ -9,17 +9,25 @@ import Ins from "@/public/instagram.png";
 import Yt from "@/public/Yt.png";
 import Tiktok from "@/public/tiktok.png";
 import Zalo from "@/public/zalo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import $axios from "@/axios/index";
 import AdminRoutes from "../adminRoutes/AdminRoutes";
+import Autocomplete from "@mui/material/Autocomplete/Autocomplete";
+import TextField from "@mui/material/TextField/TextField";
+import IProduct from "../../types/IProduct";
+import { Stack } from "@mui/material";
 
+import userIcon from "./Icon.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const TopNav = () => {
+  const navigate = useNavigate();
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
     (async () => {
@@ -37,16 +45,44 @@ const TopNav = () => {
     window.location.href = url;
     return undefined;
   };
+
+  const [searchText, setSearchText] = useState<string>("");
+  const [options, setOptions] = useState<any[]>([]);
+  useEffect(() => {
+    if (searchText) {
+      const search = setTimeout(async () => {
+        const res = await $axios.get("product/search-by-name", {
+          params: { name: searchText },
+        });
+        setOptions(
+          res.data.map((i: IProduct) => ({ label: i.name, id: i.id }))
+        );
+      }, 1000);
+      return () => clearTimeout(search);
+    }
+  }, [searchText]);
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+  let closeCountDown: any = useRef();
+  const closeDropdown = () => {
+    closeCountDown.current = setTimeout(() => setIsDropdownOpen(false), 2000);
+  };
+
+  const clear = () => {
+    clearTimeout(closeCountDown.current);
+  };
+
   return (
     <div>
-      <div className=" bg-main-yellow overflow-hidden ">
-        <div className="flex justify-between section">
-          <div className="text-main-red max-w-xl">
+      <div className=" bg-main-yellow  relative  ">
+        <div className="flex justify-between section relative ">
+          <div className="text-main-red max-w-xl relative ">
             Suckhoevang98 - Tự hào là đơn vị chuyên cung cấp các dòng sản phẩm
             thượng hạng, với chất lượng cao nhất... Hotline: 0963.463.198
           </div>
           <div className="flex flex-wrap">
-            <div className="flex items-center">
+            <div className="flex items-center relative ">
               <img
                 src={FB}
                 alt=""
@@ -83,16 +119,53 @@ const TopNav = () => {
               />
             </div>
             {state.user ? (
-              <div>
-                <div className=" text-main-red font-extrabold">
-                  {state.user.username}
+              <div
+                className="bg-slate-100  flex flex-col justify-center items-center  "
+                style={{ width: "170px" }}
+              >
+                <div className=" text-main-red font-extrabold flex relative ">
+                  <div
+                    className="flex flex-row"
+                    onMouseOver={() => setIsDropdownOpen(true)}
+                    onMouseLeave={() => closeDropdown()}
+                  >
+                    <img src={userIcon} alt="" className="mr-2" />
+                    {state.user.username}
+                  </div>
+                  {isDropdownOpen && (
+                    <div
+                      className="absolute bg-white text-black  z-20  top-9"
+                      style={{ width: "170px", left: "-32px" }}
+                      onMouseEnter={() => clear()}
+                      onMouseLeave={() => closeDropdown()}
+                    >
+                      <ul className="px-2">
+                        <li className="cursor-pointer">
+                          <Link
+                            to="personal-info"
+                            style={{ fontSize: "16px", fontWeight: "800" }}
+                          >
+                            <FontAwesomeIcon
+                              icon={solid("user-secret")}
+                              className=" mr-1"
+                            />
+                            <span>Thông tin của tôi</span>
+                          </Link>
+                        </li>
+                        <li
+                          className="cursor-pointer"
+                          onClick={() => dispatch({ type: "LOG_OUT" })}
+                        >
+                          <FontAwesomeIcon
+                            icon={solid("right-from-bracket")}
+                            className=" mr-1"
+                          />{" "}
+                          <span>Đăng xuất</span>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 </div>
-                <button
-                  className="border-2 border-main-red text-base"
-                  onClick={() => dispatch({ type: "LOG_OUT" })}
-                >
-                  Đăng xuất
-                </button>
               </div>
             ) : (
               <div className="flex items-center">
@@ -125,9 +198,38 @@ const TopNav = () => {
           </Link>
           <div className="flex h-fit mr-20 grow max-w-2xl">
             <div className="w-full">
-              <div className="w-full relative">
-                <input type="text" className="searchInput w-full" />
-                <button className="searchButton" type="submit">
+              <div className="w-full ">
+                {/* <input
+                  type="text"
+                  className="searchInput w-full"
+                  value={searchText}
+                  onChange={($event) => setSearchText($event.target.value)}
+                /> */}
+                <Autocomplete
+                  inputValue={searchText}
+                  onInputChange={(event, newInputValue) => {
+                    if (event && event.type == "click") {
+                      const item = options.filter(
+                        (o) => o.label == newInputValue
+                      );
+                      navigate(`/product/${item[0].id}`);
+                      setSearchText("");
+                    } else if (event && event.type == "change") {
+                      setSearchText(newInputValue);
+                    }
+                  }}
+                  id="productSearch"
+                  options={options}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Tìm kiếm sản phẩm"
+                      InputLabelProps={{ disabled: true }}
+                    />
+                  )}
+                  className="bg-slate-100 w-full"
+                />
+                {/* <button className="searchButton" type="submit">
                   <svg
                     width="56"
                     height="40"
@@ -147,7 +249,7 @@ const TopNav = () => {
                       fill="white"
                     />
                   </svg>
-                </button>
+                </button> */}
               </div>
               <div className="flex w-full justify-between px-3">
                 <h3 className="topNavh3">Đông trùng hạ thảo</h3>

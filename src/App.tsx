@@ -22,6 +22,7 @@ import AllLoyaltySettings from "./pages/loyaltySetting/AllLoyaltySettings";
 import ShoppingCart from "./pages/shoppingCart/ShoppingCart";
 import CompleteOrder from "./pages/completeOrder/CompleteOrder";
 import AllOrderRequests from "./pages/allOrderRequests/AllOrderRequests";
+import PersonalInfo from "./pages/personalInfo/PersonalInfo";
 
 function App() {
   const NavLayout = () => (
@@ -47,6 +48,7 @@ function App() {
               <Route path="/all-products" element={<AllProducts />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/personal-info" element={<PersonalInfo />} />
               <Route path="/complete-order" element={<CompleteOrder />} />
               <Route path="/shopping-cart" element={<ShoppingCart />} />
               <Route
