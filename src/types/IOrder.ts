@@ -10,7 +10,7 @@ export enum OrderRequestState {
 }
 export default interface IOrder {
   id?: string;
-  fullName: string;
+  name: string;
   phoneNumber: string;
   address: string;
   note: string;
@@ -21,7 +21,7 @@ export default interface IOrder {
 }
 export interface IOrderResponse {
   id: string;
-  fullName: string;
+  name: string;
   phoneNumber: string;
   address: string;
   note: string;

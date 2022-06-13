@@ -161,7 +161,7 @@ const AllOrderRequests = () => {
       <table className="table-auto text-center w-full">
         <thead className="border-b-2">
           <tr>
-            <th>fullName</th>
+            <th>name</th>
             <th>phoneNumber</th>
             <th>address</th>
             <th>Items</th>
@@ -176,7 +176,7 @@ const AllOrderRequests = () => {
             .filter((r) => filterState == "ALL" || r.state == filterState)
             .map((request) => (
               <tr key={request.id} className="border-b-2">
-                <td className="">{request.fullName}</td>
+                <td className="">{request.name}</td>
                 <td className="">{request.phoneNumber}</td>
                 <td className="">{request.address}</td>
                 <td className="">

@@ -58,14 +58,10 @@ const SignUpOrLogIn = () => {
           "accessToken",
           JSON.stringify(res.data.accessToken)
         );
-
-        localStorage.setItem(
-          "userInfo",
-          JSON.stringify({
-            id: res.data.userInfo.id,
-            username: res.data.userInfo.username,
-          })
-        );
+        $axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.accessToken}`;
+        localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
         dispatch({ type: "UPDATE_USER", payload: res.data.userInfo });
         navigate("/");
       } else if (res.status == 201) {

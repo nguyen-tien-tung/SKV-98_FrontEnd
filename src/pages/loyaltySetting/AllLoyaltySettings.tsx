@@ -17,6 +17,8 @@ const AllLoyaltySettings = () => {
     hasBirthdayGift: false,
     hasEventTicket: false,
     isVip: false,
+    pointRequirement: 0,
+    pointGainPerItem: 0,
   };
 
   useEffect(() => {
@@ -105,6 +107,14 @@ const AllLoyaltySettings = () => {
         <div className="flex items-center gap-4">
           <label htmlFor="isVip">Is Vip ?</label>
           <input type="checkbox" name="isVip" onClick={onChange} />
+        </div>
+        <div className="flex items-center gap-4">
+          <label htmlFor="isVip">pointGainPerItem ?</label>
+          <input type="number" name="pointGainPerItem" onChange={onChange} />
+        </div>
+        <div className="flex items-center gap-4">
+          <label htmlFor="isVip">pointRequirement ?</label>
+          <input type="number" name="pointRequirement" onChange={onChange} />
         </div>
         <button type="submit" className="bg-cyan-300 w-full">
           Submit

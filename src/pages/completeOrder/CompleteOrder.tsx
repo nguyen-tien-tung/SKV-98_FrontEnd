@@ -11,7 +11,7 @@ const CompleteOrder = () => {
   const { state, dispatch } = useContext(UserContext);
 
   const orderInfo: IOrder = {
-    fullName: "",
+    name: "",
     phoneNumber: "",
     address: "",
     note: "",
@@ -37,12 +37,12 @@ const CompleteOrder = () => {
       <div>
         <h2>Thông tin thanh toán</h2>
         <div className="flex flex-col w-fit mx-auto">
-          <label htmlFor="fullName">Họ và tên</label>
+          <label htmlFor="name">Họ và tên</label>
           <input
             type="text"
-            value={values.fullName}
+            value={values.name}
             onChange={onChange}
-            name="fullName"
+            name="name"
           />
           <label htmlFor="phoneNumber">Số điện thoại</label>
           <input
