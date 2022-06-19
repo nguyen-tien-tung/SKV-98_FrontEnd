@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { useForm } from "../helper/useForm";
 import IProduct, { ProductStates } from "../types/IProduct";
 import { Category } from "../types/Category";
+
+import storage from "@/firebase/firebaseConfig";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 import $axios from "@/axios/index";
 
 const NewProductForm = () => {
@@ -32,32 +36,52 @@ const NewProductForm = () => {
     }
   };
 
+  const [waitingImage, setWaitingImage] = useState<boolean>(true);
+  const [waitingImages, setWaitingImages] = useState<boolean>(true);
+
   const handleMainImage: (e: any) => void = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      values.mainImage = reader.result;
-    };
+    if (!file) return;
+    const storageRef = ref(storage, `files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-    reader.onerror = function () {
-      console.log(reader.error);
-    };
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        alert(error);
+      },
+      () => {
+        setWaitingImage(true);
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          values.mainImage = downloadURL;
+          setWaitingImage(false);
+        });
+      }
+    );
   };
 
   const handleImages: (e: any) => void = (e) => {
-    const files = e.target.files;
+    const files: { [key: string]: any } = e.target.files;
     let tempFiles: Array<string | ArrayBuffer | null> = [];
     for (const [key, value] of Object.entries(files)) {
-      const reader = new FileReader();
-      reader.readAsDataURL(value as any);
-      reader.onload = function () {
-        tempFiles.push(reader.result);
-      };
+      const storageRef = ref(storage, `files/${value.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, value);
 
-      reader.onerror = function () {
-        console.log(reader.error);
-      };
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (error) => {
+          alert(error);
+        },
+        () => {
+          setWaitingImages(true);
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            tempFiles.push(downloadURL);
+            setWaitingImages(false);
+          });
+        }
+      );
     }
     values.images = tempFiles;
   };
@@ -114,7 +138,7 @@ const NewProductForm = () => {
         <input type="file" onChange={handleMainImage} name="mainImage" />
         <label htmlFor="images">Images</label>
         <input type="file" onChange={handleImages} name="images" multiple />
-        <button>SUBMIT</button>
+        {!waitingImage && !waitingImages && <button>SUBMIT</button>}
       </form>
       <img src={`${imageSource}`} alt="" />
     </div>
