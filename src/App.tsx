@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.scss";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Navigate, Route, Routes } from "react-router-dom";
 import NewProductForm from "./pages/NewProductForm";
 import Home from "./pages/home/Home";
 import NotFoundPage from "./pages/error/404";
@@ -25,6 +25,7 @@ import AllOrderRequests from "./pages/allOrderRequests/AllOrderRequests";
 import PersonalInfo from "./pages/personalInfo/PersonalInfo";
 
 function App() {
+  const { state, dispatch } = useContext(UserContext);
   const NavLayout = () => (
     <>
       <TopNav />
@@ -32,6 +33,14 @@ function App() {
       <Footer />
     </>
   );
+
+  const PrivateWrapper = () => {
+    return state.user?.state == "ADMIN" ? (
+      <Outlet />
+    ) : (
+      <Navigate to="/auth/login" />
+    );
+  };
 
   return (
     <UserContextProvider>
@@ -57,15 +66,20 @@ function App() {
               />
 
               {/* * ROUTES FOR ADMIN : */}
-              <Route
-                path="/all-loyalty-setting"
-                element={<AllLoyaltySettings />}
-              />
-              <Route path="/upload-new-product" element={<NewProductForm />} />
-              <Route
-                path="/all-order-requests"
-                element={<AllOrderRequests />}
-              />
+              <Route element={<PrivateWrapper />}>
+                <Route
+                  path="/all-loyalty-setting"
+                  element={<AllLoyaltySettings />}
+                />
+                <Route
+                  path="/upload-new-product"
+                  element={<NewProductForm />}
+                />
+                <Route
+                  path="/all-order-requests"
+                  element={<AllOrderRequests />}
+                />
+              </Route>
             </Route>
             {/* ******************** */}
             <Route path="*" element={<NotFoundPage />} />

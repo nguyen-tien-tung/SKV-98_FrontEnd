@@ -31,7 +31,7 @@ const TopNav = () => {
   const { state, dispatch } = useContext(UserContext);
   useEffect(() => {
     (async () => {
-      if (!state.user) {
+      if (!state.user && localStorage.getItem("userInfo")) {
         try {
           const res = await $axios.get("profile");
           dispatch({ type: "UPDATE_USER", payload: res.data });
@@ -184,7 +184,7 @@ const TopNav = () => {
           </div>
         </div>
       </div>
-      <AdminRoutes />
+      {state.user?.state == "ADMIN" && <AdminRoutes />}
 
       <div className=" bg-main-red  ">
         <div className="flex section items-center w-full overflow-hidden">
@@ -288,12 +288,12 @@ const TopNav = () => {
       </div>
 
       <div className=" bg-main-yellow ">
-        <div className="flex section justify-between items-center">
+        <div className="flex section justify-between items-center nav ">
           <Link to="/">Trang chủ</Link>
           <Link to="about-us">Giới thiệu</Link>
           <Menu as="div" className="relative inline-block text-left ">
             <div>
-              <Menu.Button className="inline-flex justify-center items-center w-full customA    ">
+              <Menu.Button className="inline-flex justify-center items-center w-full  customA   ">
                 Sản phẩm
                 <ChevronDownIcon
                   className="-mr-1 ml-2 h-5 w-5"

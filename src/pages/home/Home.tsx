@@ -10,6 +10,7 @@ import { Category } from "../../types/Category";
 import ProductsByCategoryComponent from "@/components/productsByCategory/ProductsByCategoryComponent";
 import IProduct from "../../types/IProduct";
 import News from "@/components/news/News";
+import { Link } from "react-router-dom";
 
 const images = [
   { url: "src/public/1banner.png" },
@@ -107,16 +108,18 @@ const Home = () => {
             tỉ mỉ khắt khe. Suckhoevang98 tự hào cung cấp 100%﻿ ﻿nguồn sản phẩm
             thượng hạng, chất lượng cao...
           </p>
-          <button
-            style={{
-              fontSize: "15px",
-              fontWeight: "400",
-              lineHeight: "18px",
-            }}
-            className="w-fit border-solid border-2 text-main-red border-main-red rounded-lg px-5 py-2.5"
-          >
-            Tìm hiểu thêm
-          </button>
+          <Link to="/about-us">
+            <button
+              style={{
+                fontSize: "15px",
+                fontWeight: "400",
+                lineHeight: "18px",
+              }}
+              className="w-fit border-solid border-2 text-main-red border-main-red rounded-lg px-5 py-2.5"
+            >
+              Tìm hiểu thêm
+            </button>
+          </Link>
         </div>
         <div className="flex justify-center items-center">
           <iframe

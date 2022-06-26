@@ -1,28 +1,19 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 import defaultAvatar from "./defaultAvatar.png";
 import profileIcon from "./profileIcon.png";
 import offers from "./offers.svg";
-import Tooltip from "@mui/material/Tooltip/Tooltip";
 import IconButton from "@mui/material/IconButton/IconButton";
 import Avatar from "@mui/material/Avatar/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu/Menu";
 import Divider from "@mui/material/Divider/Divider";
-import IUser from "@/types/IUser";
 import { useForm } from "../../helper/useForm";
 import $axios from "@/axios/index";
-import { Notification } from "@/components/notification/Notification";
-import { SEVERITY } from "../../types/SeverityType";
-import { useRef } from "react";
 
 const PersonalInfo = () => {
-  const [message, setMessage] = useState<string>("");
-  const [severity, setSeverity] = useState<SEVERITY>("success");
-  const notiRef = useRef<any>(null);
-
   const { state, dispatch } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -36,20 +27,17 @@ const PersonalInfo = () => {
 
   const storageUser = JSON.parse(localStorage.getItem("userInfo")!);
   const [userInfo, setUserInfo] = useState<any>({
-    username: storageUser.username,
-    name: storageUser.name,
-    phoneNumber: storageUser.phoneNumber,
-    email: storageUser.email,
-    address: storageUser.address,
-    dateOfBirth: storageUser.dateOfBirth,
+    username: storageUser.username || "",
+    name: storageUser.name || "",
+    phoneNumber: storageUser.phoneNumber || "",
+    email: storageUser.email || "",
+    address: storageUser.address || "",
+    dateOfBirth: storageUser.dateOfBirth || "",
   });
 
   const submitForm: () => void = async () => {
     const res = await $axios.patch("user", values);
     if (res.status == 200) {
-      setMessage("Thay đổi thông tin cá nhân thành công");
-      setSeverity("success");
-      if (notiRef.current) notiRef?.current?.handleOpenNoti();
       dispatch({ type: "UPDATE_USER", payload: res.data });
       localStorage.setItem("userInfo", JSON.stringify(res.data));
     }
@@ -60,7 +48,7 @@ const PersonalInfo = () => {
 
   return (
     <div className="section flex flex-row">
-      <Notification message={message} severity={severity} ref={notiRef} />
+      {/* https://www.npmjs.com/package/react-notifications-component */}
       <div className="grid grid-cols-2 grid-rows-3">
         <div className="flex border-b-2">
           <div>

@@ -27,7 +27,15 @@
 }
 
 a, .customA {
-  @apply text-main-red;
   font-size: 20px;
   font-weight: 400;
+}
+
+a:active {
+  @apply text-main-red;
+  
+}
+
+.nav {
+  height: 55px
 }
