@@ -13,6 +13,7 @@ import $axios from "@/axios/index";
 import policyImg from "./policy.png";
 import { UserContext } from "../../contexts/UserContext";
 
+import "./ProductDetails.scss";
 const ProductDetails = () => {
   let { productId } = useParams<{ productId: string }>();
 
@@ -25,6 +26,10 @@ const ProductDetails = () => {
     (async () => {
       const res = await $axios.get(`product/${productId}`);
       setProduct(res.data);
+      if (res.data.description.length > 350) {
+        setNeedSplit(true);
+        setDescriptionSplit(true);
+      }
     })();
   }, [productId]);
 
@@ -37,6 +42,9 @@ const ProductDetails = () => {
   const { state, dispatch } = useContext(UserContext);
 
   const [error, setError] = useState<string>("");
+
+  const [descriptionSplit, setDescriptionSplit] = useState<boolean>(false);
+  const [needSplit, setNeedSplit] = useState<boolean>(false);
 
   const updateCart = async (product: IProduct, quantity: number) => {
     if (number + quantity <= 0) {
@@ -74,31 +82,38 @@ const ProductDetails = () => {
             <img
               src={product.mainImage}
               alt=""
-              style={{ maxWidth: "500px", maxHeight: "500px" }}
+              style={{ width: "500px", height: "500px" }}
               className="mb-4"
             />
-            <div className="flex flex-row justify-evenly">
+            <div className="grid grid-cols-4 gap-2">
               {product.images.map((i) => (
                 <img
                   src={i}
-                  style={{ maxWidth: "110px", maxHeight: "110px" }}
+                  style={{ width: "110px", height: "110px" }}
                   key={i}
                 />
               ))}
             </div>
           </div>
           <div className="productDetails">
-            <h1>{product.name}</h1>
-            <h2 className="text-yellow-600">
+            <h1 className="pdh1">{product.name}</h1>
+            <div
+              className="bg-yellow-600"
+              style={{ height: "3px", width: "45px", margin: "10px 0 20px 0" }}
+            >
+              &nbsp;
+            </div>
+            <h2 className="text-yellow-600 price">
               {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}đ
             </h2>
-            <h2>Sản phẩm: {product.name}</h2>
+            <h2 className="pdText">Sản phẩm: {product.name}</h2>
+            <h2 className="pdText">Xuất xứ: {product.origin}</h2>
             <div className="addingSection">
-              <div>
-                <span>Số Lượng :</span>
+              <div className="pdText flex  items-center">
+                <span className="">Số Lượng :</span>
                 <FontAwesomeIcon
                   icon={solid("minus")}
-                  className="cursor-pointer mx-3"
+                  className="cursor-pointer mx-3 bg-slate-400 p-1 rounded-md"
                   onClick={() =>
                     setNumber((number) => (number != 0 ? number - 1 : number))
                   }
@@ -106,25 +121,25 @@ const ProductDetails = () => {
                 {number}
                 <FontAwesomeIcon
                   icon={solid("plus")}
-                  className="cursor-pointer ml-3"
+                  className="cursor-pointer ml-3 bg-slate-400 p-1 rounded-md"
                   onClick={() => setNumber((number) => number + 1)}
                 />
               </div>
               {error}
-              <div className="flex flex-row">
+              <div className="flex flex-row mb-8">
                 <button
-                  className="border-solid border-2 border-main-red flex flex-row"
+                  className="border-solid border-2 border-main-red flex flex-row rounded-md p-1"
                   onClick={() => updateCart(product, number)}
                 >
                   <FontAwesomeIcon
                     icon={solid("cart-plus")}
-                    className=" mr-1"
+                    className=" mr-1 pdBtIcon"
                   />
-                  <h2>Thêm vào giỏ hàng</h2>
+                  <span className="pdBtText">Thêm vào giỏ hàng</span>
                 </button>
                 <div>&nbsp;</div>
                 <button
-                  className="border-solid border-2 border-main-red flex flex-row"
+                  className="border-solid border-2 border-main-red flex flex-row rounded-md p-1"
                   onClick={async () => {
                     await updateCart(product, number);
                     if (number > 0) {
@@ -134,13 +149,29 @@ const ProductDetails = () => {
                 >
                   <FontAwesomeIcon
                     icon={solid("money-bill-1-wave")}
-                    className=" mr-1"
+                    className=" mr-1 pdBtIcon"
                   />
-                  <h2>Thanh toán ngay</h2>
+                  <span className="pdBtText">Thanh toán ngay</span>
                 </button>
               </div>
             </div>
-            <p>{product.description}</p>
+            <p className="pdText whitespace-wrap w-full">
+              {descriptionSplit
+                ? product.description.slice(0, 350)
+                : product.description}
+              {descriptionSplit && "..."}
+
+              {needSplit && (
+                <button
+                  className="border-solid border-2 border-main-red flex flex-row rounded-md p-1 mx-auto mt-4"
+                  onClick={() => {
+                    setDescriptionSplit((pre) => !pre);
+                  }}
+                >
+                  <span className="pdBtText">Tìm hiểu thêm</span>
+                </button>
+              )}
+            </p>
           </div>
           <div className="policy">
             <img src={policyImg} />

@@ -1,0 +1,31 @@
+.productDetails{
+  max-width: 400px;
+}
+.pdh1 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.price {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.pdText {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  @apply py-2;
+}
+
+.pdBtText {
+  @apply text-main-red;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.pdBtIcon {
+  width: 20px;
+  height: 20px;
+}
