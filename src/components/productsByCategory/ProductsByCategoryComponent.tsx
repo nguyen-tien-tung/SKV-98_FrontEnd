@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import moneyConverter from "@/utils/moneyConverter";
+import { UserContext } from "../../contexts/UserContext";
 interface IProps {
   allProducts: any[];
 }
@@ -9,7 +10,7 @@ const ProductsByCategoryComponent = ({ allProducts }: IProps) => {
   const navigate = useNavigate();
   const toProductDetails: (productID: string) => void = (productID) =>
     navigate(`product/${productID}`);
-
+  const { state, dispatch } = useContext(UserContext);
   return (
     <div className="grid grid-cols-3 gap-y-16 ">
       {allProducts &&
@@ -51,6 +52,24 @@ const ProductsByCategoryComponent = ({ allProducts }: IProps) => {
                 Mua ngay
               </button>
             </Link>
+            {state.user?.username == "admin" && (
+              <Link to={`/product/${product.id}/edit`}>
+                <button
+                  className="text-main-red"
+                  style={{
+                    backgroundColor: "#FFDD55",
+                    minWidth: "165px",
+                    minHeight: "35px",
+                    border: "2px solid #FFF",
+                    fontSize: "15px",
+                    fontWeight: "600",
+                    lineHeight: "18px",
+                  }}
+                >
+                  Chỉnh sửa
+                </button>
+              </Link>
+            )}
           </div>
         ))}
     </div>

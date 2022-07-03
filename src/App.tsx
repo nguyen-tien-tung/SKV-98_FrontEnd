@@ -23,6 +23,7 @@ import ShoppingCart from "./pages/shoppingCart/ShoppingCart";
 import CompleteOrder from "./pages/completeOrder/CompleteOrder";
 import AllOrderRequests from "./pages/allOrderRequests/AllOrderRequests";
 import PersonalInfo from "./pages/personalInfo/PersonalInfo";
+import ProductEdit from "./pages/productEdit/ProductEdit";
 
 function App() {
   const { state, dispatch } = useContext(UserContext);
@@ -35,7 +36,8 @@ function App() {
   );
 
   const PrivateWrapper = () => {
-    return state.user?.state == "ADMIN" ? (
+    return JSON.parse(localStorage.getItem("userInfo") || "")?.state ==
+      "ADMIN" ? (
       <Outlet />
     ) : (
       <Navigate to="/auth/login" />
@@ -53,6 +55,10 @@ function App() {
             <Route path="/" element={<NavLayout />}>
               <Route path="" element={<Home />} />
               <Route path="/product/:productId" element={<ProductDetails />} />
+              <Route
+                path="/product/:productId/edit"
+                element={<ProductEdit />}
+              />
               <Route path="/news" element={<News />} />
               <Route path="/all-products" element={<AllProducts />} />
               <Route path="/contact-us" element={<ContactUs />} />
