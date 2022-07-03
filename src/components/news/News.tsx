@@ -2,7 +2,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper";
 import "swiper/scss";
 import "swiper/scss/pagination";
+import { useNavigate, Navigate } from "react-router-dom";
 const News = () => {
+  let navigate = useNavigate();
+
   return (
     <div className="section mb-14">
       <h2 className="sectionHeader mt-4 mb-8">Tin Tức & thông tin</h2>
@@ -14,8 +17,8 @@ const News = () => {
         }}
         modules={[FreeMode, Pagination]}
       >
-        {Array.from(Array(9).keys()).map((e, index) => (
-          <SwiperSlide key={index}>
+        {Array.from(Array(4).keys()).map((e, index) => (
+          <SwiperSlide key={index} onClick={() => navigate(`/news/${index}`)}>
             <div
               className="flex flex-col justify-items-start cursor-pointer"
               style={{ maxWidth: "354px" }}

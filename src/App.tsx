@@ -24,6 +24,7 @@ import CompleteOrder from "./pages/completeOrder/CompleteOrder";
 import AllOrderRequests from "./pages/allOrderRequests/AllOrderRequests";
 import PersonalInfo from "./pages/personalInfo/PersonalInfo";
 import ProductEdit from "./pages/productEdit/ProductEdit";
+import NewsDetails from "./pages/newsDetails/NewsDetails";
 
 function App() {
   const { state, dispatch } = useContext(UserContext);
@@ -60,6 +61,7 @@ function App() {
                 element={<ProductEdit />}
               />
               <Route path="/news" element={<News />} />
+              <Route path="/news/:id" element={<NewsDetails />} />
               <Route path="/all-products" element={<AllProducts />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/about-us" element={<AboutUs />} />
