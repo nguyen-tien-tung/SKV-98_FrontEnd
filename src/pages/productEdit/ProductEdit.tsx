@@ -1,12 +1,14 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, MouseEventHandler } from "react";
 import IProduct from "../../types/IProduct";
 import { ProductStates } from "../../types/IProduct";
 import { Category } from "@/types/Category";
 import $axios from "@/axios/index";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import storage from "@/firebase/firebaseConfig";
 const ProductEdit = () => {
+  let navigate = useNavigate();
+
   const location = useLocation();
   const [product, setProduct] = useState<IProduct>({
     name: "",
@@ -34,6 +36,7 @@ const ProductEdit = () => {
   }, []);
   const [imageSource, setImageSource] = useState<string>("");
   const submitForm = async (e: FormEvent) => {
+    console.log(e);
     e.preventDefault();
     setProduct((p) => ({ ...p, price: p.price, mass: p.mass }));
     try {
@@ -41,6 +44,17 @@ const ProductEdit = () => {
         `${import.meta.env.VITE_API_URL}product/${product.id}`,
         product
       );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const deleteProduct = async (e: any) => {
+    e.preventDefault();
+    try {
+      const res = await $axios.delete(
+        `${import.meta.env.VITE_API_URL}product/${product.id}`
+      );
+      if (res.status == 200) navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -143,9 +157,14 @@ const ProductEdit = () => {
         <input type="file" onChange={handleMainImage} name="mainImage" />
         <label htmlFor="images">Images</label>
         <input type="file" onChange={handleImages} name="images" multiple />
-        <button>SUBMIT</button>
+        <button type="submit">SUBMIT</button>
+        <button
+          className="bg-red-500 rounded-md border-red-200"
+          onClick={deleteProduct}
+        >
+          DELETE PRODUCT
+        </button>
       </form>
-      <img src={`${imageSource}`} alt="" />
     </div>
   );
 };
