@@ -139,7 +139,7 @@ const Home = () => {
           Sản phẩm bán chạy
         </h2>
 
-        <div className="flex flex-row justify-between section mb-12">
+        <div className="flex flex-row justify-between section mb-12 gap-2">
           {bestSeller &&
             bestSeller.map((product: IProduct, index: number) => (
               <div key={index} className="bestSellerProductCard">
@@ -158,7 +158,7 @@ const Home = () => {
                 >
                   {product.name}
                 </h3>
-                <p className="mb-1">{product.description}</p>
+                <p className="mb-1 whitespace-normal">{product.description}</p>
                 <div
                   className="text-main-red text-right"
                   style={{
