@@ -3,12 +3,12 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import "./TopNav.scss";
-import companyLogo from "@/public/companyLogo.png";
-import FB from "@/public/FB.svg";
-import Ins from "@/public/instagram.png";
-import Yt from "@/public/Yt.png";
-import Tiktok from "@/public/tiktok.png";
-import Zalo from "@/public/zalo.png";
+import companyLogo from "/companyLogo.png";
+import FB from "/FB.png";
+import Ins from "/instagram.png";
+import Yt from "/Yt.png";
+import Tiktok from "/tiktok.png";
+import Zalo from "/zalo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { useEffect, useState } from "react";
@@ -252,11 +252,36 @@ const TopNav = () => {
                 </button> */}
               </div>
               <div className="flex w-full justify-between px-3">
-                <h3 className="topNavh3">Đông trùng hạ thảo</h3>
-                <h3 className="topNavh3">Tổ yến</h3>
-                <h3 className="topNavh3">Saffaron</h3>
-                <h3 className="topNavh3">Nhân sâm</h3>
-                <h3 className="topNavh3">Khác</h3>
+                <Link
+                  to="products-by-category/DONG_TRUNG_HA_THAO"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <h3 className="topNavh3">Đông trùng hạ thảo</h3>
+                </Link>
+                <Link
+                  to="products-by-category/YEN_SAO_THUONG_HANG"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <h3 className="topNavh3">Tổ yến</h3>
+                </Link>
+                <Link
+                  to="products-by-category/SAFFARON"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <h3 className="topNavh3">Saffaron</h3>
+                </Link>
+                <Link
+                  to="products-by-category/NHAN_SAM"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <h3 className="topNavh3">Nhân sâm</h3>
+                </Link>
+                <Link
+                  to="products-by-category/KHAC"
+                  style={{ fontSize: "inherit" }}
+                >
+                  <h3 className="topNavh3">Khác</h3>
+                </Link>
               </div>
             </div>
           </div>

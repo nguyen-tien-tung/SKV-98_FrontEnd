@@ -1,4 +1,4 @@
-import companyLogo from "@/public/companyLogo.png";
+import companyLogo from "/companyLogo.png";
 import "./AboutUs.scss";
 
 const AboutUs = () => {

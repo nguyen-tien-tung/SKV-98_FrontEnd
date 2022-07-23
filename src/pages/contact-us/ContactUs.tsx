@@ -7,11 +7,11 @@ import axios from "axios";
 import $axios from "@/axios/index";
 
 const icons = [
-  "src/public/FB.svg",
-  "src/public/instagram.png",
-  "src/public/Yt.png",
-  "src/public/tiktok.png",
-  "src/public/zalo.png",
+  "/FB.png",
+  "/instagram.png",
+  "/Yt.png",
+  "/tiktok.png",
+  "/zalo.png",
 ];
 
 const ContactUs = () => {

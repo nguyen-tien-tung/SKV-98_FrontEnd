@@ -1,12 +1,9 @@
 import React from "react";
 import "./Footer.scss";
-import FB from "@/public/FB.svg";
-import Ins from "@/public/instagram.png";
-import Yt from "@/public/Yt.png";
-import Tiktok from "@/public/tiktok.png";
-import Zalo from "@/public/zalo.png";
 
-import companyLogo from "@/public/companyLogo.png";
+const icons = ["FB", "instagram", "Yt", "tiktok", "zalo"];
+
+import companyLogo from "/companyLogo.png";
 const Footer = () => {
   return (
     <div className="bg-red-footer pt-8">
@@ -36,21 +33,11 @@ const Footer = () => {
           <div>
             <h2 className="mx-auto font-semibold">Kết nối với chúng tôi</h2>
             <ul className="flex w-100 justify-between mb-20 mt-2">
-              <li>
-                <img src={FB} />
-              </li>
-              <li>
-                <img src={Ins} />
-              </li>
-              <li>
-                <img src={Yt} />
-              </li>
-              <li>
-                <img src={Tiktok} />
-              </li>
-              <li>
-                <img src={Zalo} />
-              </li>
+              {icons.map((icon, index) => (
+                <li key={index}>
+                  <img src={"/" + icon + ".png"} />
+                </li>
+              ))}
             </ul>
           </div>
           Hotline: 0963.463.198 <br />

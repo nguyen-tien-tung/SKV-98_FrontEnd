@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import "./SignUpOrLogIn.scss";
-import FB from "@/public/FB.svg";
-import Ins from "@/public/instagram.png";
-import Yt from "@/public/Yt.png";
-import Tiktok from "@/public/tiktok.png";
-import Zalo from "@/public/zalo.png";
+import FB from "/FB.png";
+import Ins from "/instagram.png";
+import Yt from "/Yt.png";
+import Tiktok from "/tiktok.png";
+import Zalo from "/zalo.png";
 import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 import logo from "./logo.png";
