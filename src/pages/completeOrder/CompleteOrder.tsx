@@ -6,8 +6,15 @@ import { useForm } from "../../helper/useForm";
 import "./CompleteOrder.scss";
 import moneyConverter from "@/utils/moneyConverter";
 import $axios from "@/axios/index";
+import { useSnackbar, VariantType } from "notistack";
 
 const CompleteOrder = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (variant: VariantType, message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant });
+  };
   const { state, dispatch } = useContext(UserContext);
 
   const orderInfo: IOrder = {
@@ -25,9 +32,11 @@ const CompleteOrder = () => {
           type: "UPDATE_USER",
           payload: { ...state.user, shoppingCart: {} },
         });
+        handleClickVariant("success", "Successfully Sent Order Request!");
       }
     } catch (error) {
       console.error(error);
+      handleClickVariant("error", "Sent Order Request Failed!!");
     }
   };
   const { onChange, onSubmit, values } = useForm(submitOrder, orderInfo);

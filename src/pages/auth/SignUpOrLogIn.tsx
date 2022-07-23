@@ -6,6 +6,7 @@ import Ins from "@/public/instagram.png";
 import Yt from "@/public/Yt.png";
 import Tiktok from "@/public/tiktok.png";
 import Zalo from "@/public/zalo.png";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 import logo from "./logo.png";
 import {
@@ -19,6 +20,13 @@ import $axios from "@/axios/index";
 import { UserContext } from "../../contexts/UserContext";
 
 const SignUpOrLogIn = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (variant: VariantType, message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant });
+  };
+
   const { state, dispatch } = useContext(UserContext);
 
   const action = useLocation().pathname.split("/").slice(-1)[0];
@@ -63,11 +71,17 @@ const SignUpOrLogIn = () => {
         ] = `Bearer ${res.data.accessToken}`;
         localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
         dispatch({ type: "UPDATE_USER", payload: res.data.userInfo });
+        handleClickVariant(
+          "success",
+          "Welcome back " + res.data.userInfo.username
+        );
         navigate("/");
       } else if (res.status == 201) {
         navigate("/auth/login");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
   const { onChange, onSubmit, values } = useForm(handleAuth, userInfo);
 

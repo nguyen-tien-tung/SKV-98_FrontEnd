@@ -36,7 +36,6 @@ const ProductEdit = () => {
   }, []);
   const [imageSource, setImageSource] = useState<string>("");
   const submitForm = async (e: FormEvent) => {
-    console.log(e);
     e.preventDefault();
     setProduct((p) => ({ ...p, price: p.price, mass: p.mass }));
     try {

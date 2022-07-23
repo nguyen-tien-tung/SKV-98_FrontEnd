@@ -2,7 +2,6 @@ import { useState } from "react";
 
 // useForm functional componen
 export const useForm = (callback: any, initialState = {}) => {
-  console.log("userForm Initial state :", initialState);
   const [values, setValues] = useState<any>(initialState);
 
   // onChange
