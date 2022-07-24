@@ -125,8 +125,8 @@ const Home = () => {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/watch?v=XxbzU6l94E8&t=1s"
-            title="YouTube video player"
+            src="https://www.youtube.com/embed/XxbzU6l94E8"
+            title="Tác dụng của mật ong đối với sức khỏe"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

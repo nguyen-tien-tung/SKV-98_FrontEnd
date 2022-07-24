@@ -9,12 +9,19 @@ import {
 } from "@fortawesome/fontawesome-svg-core/import.macro";
 import IProduct from "../../types/IProduct";
 import $axios from "@/axios/index";
+import { VariantType, useSnackbar } from "notistack";
 
 import policyImg from "./policy.png";
 import { UserContext } from "../../contexts/UserContext";
 
 import "./ProductDetails.scss";
 const ProductDetails = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleClickVariant = (variant: VariantType, message: string) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(message, { variant });
+  };
   let { productId } = useParams<{ productId: string }>();
 
   const [product, setProduct] = useState<IProduct>();
@@ -71,6 +78,7 @@ const ProductDetails = () => {
       }
     } catch (error) {}
     dispatch({ type: "SET_CART", payload: cartTemp });
+    handleClickVariant("success", "Đã cập nhật giỏ hàng");
     setNumber(0);
   };
 

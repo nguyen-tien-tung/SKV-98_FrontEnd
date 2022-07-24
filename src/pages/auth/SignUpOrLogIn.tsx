@@ -6,7 +6,7 @@ import Ins from "/instagram.png";
 import Yt from "/Yt.png";
 import Tiktok from "/tiktok.png";
 import Zalo from "/zalo.png";
-import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import { VariantType, useSnackbar } from "notistack";
 
 import logo from "./logo.png";
 import {
