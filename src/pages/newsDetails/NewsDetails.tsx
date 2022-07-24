@@ -9,7 +9,7 @@ const NewsDetails = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center align-middle">
+      <div className="flex flex-col justify-center items-center align-middle section">
         <h1>{news[newsNum].title}</h1>
         {news[newsNum].content.map((content, index) => (
           <div key={index}>

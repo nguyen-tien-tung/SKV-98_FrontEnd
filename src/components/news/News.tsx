@@ -2,7 +2,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper";
 import "swiper/scss";
 import "swiper/scss/pagination";
+import "./News.scss";
 import { useNavigate, Navigate } from "react-router-dom";
+import { news } from "@/hardCodedNews";
 const News = () => {
   let navigate = useNavigate();
 
@@ -17,25 +19,18 @@ const News = () => {
         }}
         modules={[FreeMode, Pagination]}
       >
-        {Array.from(Array(4).keys()).map((e, index) => (
+        {news.map((n, index) => (
           <SwiperSlide key={index} onClick={() => navigate(`/news/${index}`)}>
             <div
               className="flex flex-col justify-items-start cursor-pointer"
               style={{ maxWidth: "354px" }}
             >
               <img
-                src={
-                  "https://images.unsplash.com/photo-1490750967868-88aa4486c946?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                }
+                src={`/newsImages/${n.content[0].images[0]}.png`}
                 style={{ width: "354px", height: "253px" }}
               />
-              <h2>3 điều bạn nên biết khi mua đông trùng hạ thảo</h2>
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled
-              </p>
+              <h2>{n.title}</h2>
+              <p className="line-clamp">{n.content[0].subTitle}</p>
               <div style={{ height: "55px" }}></div>
             </div>
           </SwiperSlide>
