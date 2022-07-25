@@ -37,11 +37,12 @@ const ProductEdit = () => {
   const [imageSource, setImageSource] = useState<string>("");
   const submitForm = async (e: FormEvent) => {
     e.preventDefault();
+
     setProduct((p) => ({ ...p, price: p.price, mass: p.mass }));
     try {
       const res = await $axios.patch(
         `${import.meta.env.VITE_API_URL}product/${product.id}`,
-        product
+        { ...product, price: +product.price, mass: +product.mass }
       );
     } catch (error) {
       console.error(error);
